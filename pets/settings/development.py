@@ -1,4 +1,3 @@
-from genericpath import isfile
 from .settings import *
 from dotenv import load_dotenv, find_dotenv
 
