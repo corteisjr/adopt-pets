@@ -1,5 +1,6 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
 from divulge.models.divulge_models import Pet, Tag, Breed
 
@@ -45,3 +46,16 @@ def new_pet_view(request):
         context = {"message": message, "tags": tags, "breeds": breeds}
 
         return render(request, "divulge/new_pet.html", context=context)
+
+
+def my_pets_view(request):
+    if request.method == "GET":
+        pets = Pet.objects.filter(user=request.user)
+        return render(request, "divulge/my_pets.html", {"pets": pets})
+
+
+def delete_pets(request, id):
+    pets = get_object_or_404(Pet, pk=id)
+    pets.delete()
+    messages.info(request, "Pet deletado com sucesso!")
+    return redirect("my_pets")
