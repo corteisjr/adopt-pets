@@ -31,7 +31,11 @@
             <div class="col-md-9">
               <span class="span-bold">Nome:</span>
               <p>{{pet.name}}</p>
-              <div style="width: 40%"></div>
+              <div style="width: 40%">
+                {% for tag in pet.tags.all %}
+                <span class="badge text-bg-info badge-lg">{{tag}}</span>
+                {% endfor %}
+              </div>
             </div>
           </div>
           <br />
@@ -62,7 +66,11 @@
               <span class="span-bold">Telefone para contato</span>
               <p>{{pet.phone}}</p>
               <br />
-              <a href="" class="btn btn-success btn-lg">SOLICITAR ADOÇÃO</a>
+              <a
+                href="{% url 'adoption' pet.id%}"
+                class="btn btn-success btn-lg"
+                >SOLICITAR ADOÇÃO</a
+              >
             </div>
 
             <div class="col-md"></div>
