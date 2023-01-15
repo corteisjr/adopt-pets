@@ -72,7 +72,7 @@
                 {% for pet in pets%}
                 <tr class="tabela-linha">
                   <td width="20%">
-                    <a href=""><img width="40%" src="{{pet.picture.url}}" /></a>
+                    <a href="{% url 'see_pets' pet.id %}"><img width="40%" src="{{pet.picture.url}}" /></a>
                   </td>
                   <td>{{pet.name}}</td>
                   <td>{{pet.breed}}</td>
