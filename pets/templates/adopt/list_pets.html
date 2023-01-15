@@ -12,6 +12,7 @@
     <link href="{% static 'css/register/register.css' %}" rel="stylesheet" />
     <link href="{% static 'css/divulge/new_pet.css' %}" rel="stylesheet" />
     <link href="{% static 'css/divulge/my_pets.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/adopt/adopt.css' %}" rel="stylesheet" />
   </head>
   <body>
     <div class="container-fluid">
@@ -31,6 +32,34 @@
               {% endfor %} {% endif %}
               <h3 class="font-vinho">Quero divulgar</h3>
               <hr />
+              <form action="{% url 'list_pets'%}" method="GET">
+                <div class="row">
+                  <div class="col-md-6">
+                    <input
+                      type="text"
+                      placeholder="Cidade..."
+                      value="{% if city %}{{city}}{% endif %}"
+                      name="city"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <select class="form-select" name="breed">
+                      {% for breed in breeds %}
+                      <option {% if breeds_filter.id == breed.id %} selected {% endif %} value="{{breed.id}}">{{breed}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <input
+                      type="submit"
+                      class="btn-custom-secondary"
+                      value="FILTRAR"
+                    />
+                  </div>
+                </div>
+              </form>
 
               <table class="tabela" cellpadding="20">
                 <tr>
@@ -38,13 +67,12 @@
                   <th>Nome</th>
                   <th>Raça</th>
                   <th>Status</th>
-                  <th>Remover</th>
+                  <th>Cidade</th>
                 </tr>
-
-                {% for pet in pets %}
+                {% for pet in pets%}
                 <tr class="tabela-linha">
                   <td width="20%">
-                    <img width="40%" src="{{pet.picture.url}}" />
+                    <a href=""><img width="40%" src="{{pet.picture.url}}" /></a>
                   </td>
                   <td>{{pet.name}}</td>
                   <td>{{pet.breed}}</td>
@@ -53,15 +81,9 @@
                     <span class="badge text-bg-primary">Para adoção</span>
                     {% elif pet.status == "a" or "A" %}
                     <span class="badge text-bg-success">Adotado</span>
-                    {% endif %}
+                    {% endif%}
                   </td>
-                  <td>
-                    <a
-                      href="{% url 'delete_pet' pet.id%}"
-                      class="btn btn-danger"
-                      >REMOVER</a
-                    >
-                  </td>
+                  <td>{{pet.city}}</td>
                 </tr>
                 {% endfor %}
               </table>

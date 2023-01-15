@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "accounts",
     "divulge",
     "phonenumber_field",
+    "adopt",
 ]
 
 MIDDLEWARE = [

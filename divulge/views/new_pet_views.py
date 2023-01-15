@@ -38,14 +38,15 @@ def new_pet_view(request):
             pet.tags.add(tag)
         pet.save()
 
+        pets = Pet.objects.all()
         tags = Tag.objects.all()
         breeds = Breed.objects.all()
 
         message = {"type": "success", "text": "Pet cadastrado com sucesso"}
 
-        context = {"message": message, "tags": tags, "breeds": breeds}
+        context = {"message": message, "tags": tags, "breeds": breeds, "pets": pets}
 
-        return render(request, "divulge/new_pet.html", context=context)
+        return render(request, "divulge/my_pets.html", context=context)
 
 
 def my_pets_view(request):
@@ -56,6 +57,9 @@ def my_pets_view(request):
 
 def delete_pets(request, id):
     pets = get_object_or_404(Pet, pk=id)
+    if not pets.user == request.user:
+        messages.info(request, "Este Pet não te pertence")
+        return redirect("my_pets")
     pets.delete()
     messages.info(request, "Pet deletado com sucesso!")
     return redirect("my_pets")

@@ -8,6 +8,7 @@ urlpatterns = (
         path("admin/", admin.site.urls),
         path("auth/", include("accounts.urls.authUrls")),
         path("divulge/", include("divulge.urls.divulgeUrls")),
+        path("", include("adopt.urls.adopt_urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
