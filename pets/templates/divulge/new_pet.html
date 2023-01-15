@@ -30,47 +30,48 @@
                             </div>
                             <div class="body-box">
                                 <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
-                                    {% if messages %}
-                                        <br>
-                                        {% for message in messages %}
-                                            <div class="alert {{message.tags}}">
-                                                {{message}}
-                                            </div>
-                                        {% endfor %}
+                                    {% if message is not None %}
+                                    <div class="alert alert-{{ message.type }}">{{ message.text }}</div>
                                     {% endif %}
-                                    <input type="file" name="foto" class="form-control">
+                                    <input type="file" name="picture" class="form-control">
                                     <br>
                                     <span>Nome:<span>
-                                    <input type="text" class="form-control" name="nome" placeholder="Digite o nome do pet...">
+                                    <input type="text" class="form-control" name="name" placeholder="Digite o nome do pet...">
                                     <br>
                                     <span>Descrição:<span>
-                                    <textarea class="form-control" name="descricao" placeholder="Descrição..."></textarea>
+                                    <textarea class="form-control" name="description" placeholder="Descrição..."></textarea>
                                     <br>
 
                                     <div class="row">
                                         <div class="col-md">
-                                            <span>Estado:</span>
-                                            <input type="text" placeholder="Digite o estado do pet..." name="estado" class="form-control">
+                                            <span>Província:</span>
+                                            <input type="text" placeholder="Digite a província do pet..." name="province" class="form-control">
                                         </div>
 
                                         <div class="col-md">
                                             <span>Cidade:</span>
-                                            <input type="text" placeholder="Digite a cidade do pet..." name="cidade" class="form-control">
+                                            <input type="text" placeholder="Digite a cidade do pet..." name="city" class="form-control">
                                         </div>
                                     </div>
                                     <br>
                                     <span>Telefone para contato:</span>
-                                    <input type="text" placeholder="Digite o seu telefone..." name="telefone" class="form-control">
+                                    <input type="text" placeholder="Digite o seu telefone..." name="phone" class="form-control">
                                     <br>
                                     <span>Tags:</span>
                                     <select name="tags" multiple class="form-select">
                                        
+                                       {% for tag in tags %}
+                                            <option value="{{tag.id}}">{{tag}}</option>
+                                       {% endfor %}
+                                        
                                     </select>
                                     <br>
                                     </span>Raça:</span>
 
-                                    <select name="raca" class="form-select">
-                                       
+                                    <select name="breed" class="form-select">
+                                        {% for breed in breeds %}
+                                            <option value="{{breed.id}}">{{breed}}</option>
+                                        {% endfor %}
                                     </select>
 
                                     <input type="submit" value="ENVIAR" class="btn-custom-primary">
