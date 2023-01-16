@@ -1,10 +1,12 @@
 from datetime import datetime
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from divulge.models.adoption_application_models import AdoptionApplication
 from django.contrib.messages import constants
 from django.core.mail import send_mail
 from django.contrib import messages
 from divulge.models.divulge_models import Pet, Tag, Breed
+from django.views.decorators.csrf import csrf_exempt
 
 
 def see_pets(request, id):
@@ -58,4 +60,24 @@ def process_orders(request, id_order):
     messages.add_message(
         request, constants.SUCCESS, "Pedido de adoção processado com sucesso"
     )
-    return redirect("/see_orders")
+    return redirect("divulge/see_orders")
+
+
+def dashboard(request):
+    if request.method == "GET":
+        return render(request, "divulge/dashboard.html")
+
+
+@csrf_exempt
+def adoption_breed_api(request):
+    breeds = Breed.objects.all()
+
+    breed_qt = []
+    for breed in breeds:
+        adoptions = AdoptionApplication.objects.filter(pet__breed=breed).count()
+        breed_qt.append(adoptions)
+
+    breeds = [breed.breed for breed in breeds]
+    data = {"breed_qt": breed_qt, "labels": breeds}
+
+    return JsonResponse(data)

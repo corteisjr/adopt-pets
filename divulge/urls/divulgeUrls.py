@@ -10,4 +10,6 @@ urlpatterns = [
     path("adoption/<int:id_pet>", adoption_view, name="adoption"),
     path("see_orders/", see_orders, name="see_orders"),
     path("process_order/<int:id_order>", process_orders, name="process_order"),
+    path("dashboard/", dashboard, name="dashboard"),
+    path("adoption_breed_api/", adoption_breed_api, name="adoption_breed_api"),
 ]
