@@ -9,4 +9,5 @@ urlpatterns = [
     path("see_pets/<int:id>", see_pets, name="see_pets"),
     path("adoption/<int:id_pet>", adoption_view, name="adoption"),
     path("see_orders/", see_orders, name="see_orders"),
+    path("process_order/<int:id_order>", process_orders, name="process_order"),
 ]

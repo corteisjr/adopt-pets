@@ -42,8 +42,16 @@
 
                   <span class="span-bold2">Cidade:</span>
                   <p>{{order.pet.city}}</p>
-                  <a href="" class="btn btn-success btn-lg">Aprovar</a>
-                  <a href="" class="btn btn-danger btn-lg">Recusar</a>
+                  <a
+                    href="{% url 'process_order' order.id %}?status=A"
+                    class="btn btn-success btn-lg"
+                    >Aprovar</a
+                  >
+                  <a
+                    href="{% url 'process_order' order.id %}?status=R"
+                    class="btn btn-danger btn-lg"
+                    >Recusar</a
+                  >
                 </div>
               </div>
             </div>

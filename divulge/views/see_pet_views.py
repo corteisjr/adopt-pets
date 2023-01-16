@@ -2,6 +2,7 @@ from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from divulge.models.adoption_application_models import AdoptionApplication
 from django.contrib.messages import constants
+from django.core.mail import send_mail
 from django.contrib import messages
 from divulge.models.divulge_models import Pet, Tag, Breed
 
@@ -32,3 +33,29 @@ def see_orders(request):
             status="AG"
         )
         return render(request, "divulge/see_orders.html", {"orders": orders})
+
+
+def process_orders(request, id_order):
+    status = request.GET.get("status")
+    order = AdoptionApplication.objects.get(id=id_order)
+    if status == "A":
+        order.status = "AP"
+        text = """Olá, sua adoção foi aprovada. ..."""
+    elif status == "R":
+        text = """Olá, sua adoção foi recusada. ..."""
+        order.status = "R"
+
+    order.save()
+    email = send_mail(
+        "Sua adoção foi processada",
+        text,
+        "corteisjunior@gmail.com",
+        [
+            order.user.email,
+        ],
+    )
+
+    messages.add_message(
+        request, constants.SUCCESS, "Pedido de adoção processado com sucesso"
+    )
+    return redirect("/see_orders")
